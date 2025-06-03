@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recipe Site</title>
+  <link rel="stylesheet" href="app.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    section {
+      padding: 20px;
+    }
+
+    input, button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 1rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero Section -->
+<section class="cake">
+  <div class="text-box">
+    <h1>Recipe Site</h1>
+    <img src="Good_Food_Display.jpg" alt="Cupcake" width="300">
+  </div>
+</section>
+
+<!-- LOGIN / SIGNUP SECTION -->
+<section id="auth-section">
+  <form onsubmit="handleLogin(event)">
+    <input type="text" id="login-name" placeholder="Enter your name" required>
+    <input type="password" id="login-password" placeholder="Enter password" required>
+    <button type="submit">Login</button>
+    <button type="button" onclick="openSignupModal()">Sign Up</button>
+  </form>
+</section>
+
+<!-- WELCOME SECTION -->
+<section id="welcome-section" class="hidden">
+  <h2>Welcome: <span id="user-name">User</span></h2>
+  <button onclick="goToMyArea()">My Area</button>
+  <button onclick="logout()">Log Out</button>
+</section>
+
+<!-- CREATE RECIPE PAGE -->
+<section id="area-section" class="hidden">
+  <h2>Welcome To Your Area: <span id="user-name-area">User</span></h2>
+  <div class="button-group">
+    <button class="small-button" onclick="goToCreate()">Create New Recipe</button>
+    <button class="small-button" onclick="goToFav()">Favorite Recipes</button>
+    <button class="small-button" onclick="goToYourCom()">Comments</button>
+    <button class="small-button" onclick="goToYourRec()">Your Recipes</button>
+    <button class="small-button" onclick="goBack()">Go Back</button>
+    <button class="small-button" onclick="logout()">Log Out</button>
+  </div>
+</section>
+
+<!-- SIGN UP MODAL -->
+<div id="signup-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeSignupModal()" style="cursor: pointer;">&times;</span>
+    <h2>Create Account</h2>
+    <form onsubmit="handleRegister(event)">
+      <input type="text" id="reg-name" placeholder="Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="password" id="reg-pass" placeholder="Password" required>
+      <input type="password" id="reg-pass-confirm" placeholder="Confirm Password" required>
+      <button type="submit">Register</button>
+    </form>
+  </div>
+</div>
+
+<!-- SEARCH SECTION -->
+<section id ="search" class="search">
+  <form>
+    <button type="submit">Search</button>
+    <input type="search" placeholder="Search Recipe">
+    <label>
+      Vegan <input type="checkbox" value="vegan">
+    </label>
+    <input type="number" placeholder="Rating (1-5)" min="1" max="5">
+    <input type="number" placeholder="Difficulty (1-5)" min="1" max="5">
+    <input type="text" list="time-options" id="time" name="time" placeholder="Duration (Minutes)">
+    <datalist id="time-options">
+      <option value="Less than 30">
+      <option value="30 - 60">
+      <option value="60 - 120">
+      <option value="More than 120">
+    </datalist>
+    
+  </form>
+</section>
+<!--Create Section-->
+<section id = "create" class="hidden">
+  <form>
+  <button type="submit">Create Recipe</button>
+            <input type="search" placeholder="Recipe Name">
+            <label> Vegan <input type="checkbox" placeholder="Vegan" value="vegan"> </label>
+            <input type="number" placeholder="Difficulty (1-5)" min="1" max = "5">
+            <input type="text" list="time-options" id="time" name="time" placeholder="Duration (Minutes)">
+            <datalist id="time-options">
+            <option value="Less than 30">
+            <option value="30 - 60">
+            <option value="60 - 120">
+            <option value="More than 120">
+            </datalist>
+            <textarea placeholder="Ingredients" rows="5"></textarea> 
+            <textarea placeholder="Description" rows="5"></textarea>
+            
+            
+  </form>
+</section>
+<!--Favorite-->
+<section id ="favorite" class = "hidden">
+  <form>
+    <h1>Favorite Recipes</h1>
+  </form>
+</section>
+
+<!--Comments-->
+<section id ="comments" class = "hidden">
+  <form>
+    <h1>Your Comments</h1>
+  </form>
+</section>
+
+<!--Created-->
+<section id ="created" class = "hidden">
+  <form>
+    <h1>Your Recipes</h1>
+  </form>
+</section>
+
+
+<!-- JAVASCRIPT -->
+<script>
+  function openSignupModal() {
+    document.getElementById('signup-modal').style.display = 'flex';
+  }
+
+  function closeSignupModal() {
+    document.getElementById('signup-modal').style.display = 'none';
+  }
+
+  function handleLogin(event) {
+    event.preventDefault();
+    const name = document.getElementById('login-name').value;
+    const pass = document.getElementById('login-password').value;
+
+    if (name && pass) {
+      document.getElementById('auth-section').classList.add('hidden');
+      document.getElementById('welcome-section').classList.remove('hidden');
+      document.getElementById('user-name').innerText = name;
+      document.getElementById('user-name-area').innerText = name;
+
+    } else {
+      alert("Please fill in both fields.");
+    }
+  }
+
+  function handleRegister(event) {
+    event.preventDefault();
+    const name = document.getElementById('reg-name').value;
+    const pass = document.getElementById('reg-pass').value;
+    const confirm = document.getElementById('reg-pass-confirm').value;
+
+    if (!name || !pass || !confirm) {
+      alert("Fill in all fields.");
+      return;
+    }
+
+    if (pass !== confirm) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    closeSignupModal();
+    document.getElementById('auth-section').classList.add('hidden');
+    document.getElementById('welcome-section').classList.remove('hidden');
+    document.getElementById('user-name').innerText = name;
+    document.getElementById('user-name-area').innerText = name;
+  }
+
+  function goToMyArea() {
+    document.getElementById('welcome-section').classList.add('hidden');
+    document.getElementById('area-section').classList.remove('hidden');
+
+  }
+
+  function goToCreate()
+  {
+    document.getElementById('search').classList.add('hidden');
+    document.getElementById('favorite').classList.add('hidden');
+    document.getElementById('created').classList.add('hidden');
+    document.getElementById('comments').classList.add('hidden');
+    document.getElementById('create').classList.remove('hidden');
+  }
+  function goToFav()
+  {
+    document.getElementById('search').classList.add('hidden');
+    document.getElementById('created').classList.add('hidden');
+    document.getElementById('comments').classList.add('hidden');
+    document.getElementById('create').classList.add('hidden');
+    document.getElementById('favorite').classList.remove('hidden');
+  }
+
+  function goToYourCom()
+  {
+    document.getElementById('search').classList.add('hidden');
+    document.getElementById('create').classList.add('hidden');
+    document.getElementById('favorite').classList.add('hidden');
+    document.getElementById('created').classList.add('hidden');
+    document.getElementById('comments').classList.remove('hidden');
+  }
+  
+  function goToYourRec()
+  {
+    document.getElementById('search').classList.add('hidden');
+    document.getElementById('create').classList.add('hidden');
+    document.getElementById('favorite').classList.add('hidden');
+    document.getElementById('comments').classList.add('hidden');
+    document.getElementById('created').classList.remove('hidden');
+
+  }
+
+  function goBack() {
+    document.getElementById('area-section').classList.add('hidden');
+    document.getElementById('welcome-section').classList.remove('hidden');
+    document.getElementById('create').classList.add('hidden');
+    document.getElementById('favorite').classList.add('hidden');
+    document.getElementById('comments').classList.add('hidden');
+    document.getElementById('created').classList.add('hidden');
+    document.getElementById('search').classList.remove('hidden');
+  }
+
+  function logout() {
+    document.getElementById('auth-section').classList.remove('hidden');
+    document.getElementById('welcome-section').classList.add('hidden');
+    document.getElementById('area-section').classList.add('hidden');
+    document.getElementById('create').classList.add('hidden');
+    document.getElementById('favorite').classList.add('hidden');
+    document.getElementById('comments').classList.add('hidden');
+    document.getElementById('created').classList.add('hidden');
+    document.getElementById('search').classList.remove('hidden');
+    document.getElementById('user-name').innerText = "User";
+  }
+
+  window.onclick = function (event) {
+    if (event.target === document.getElementById('signup-modal')) closeSignupModal();
+  }
+</script>
+
+</body>
+</html>
+
+<router-outlet />
