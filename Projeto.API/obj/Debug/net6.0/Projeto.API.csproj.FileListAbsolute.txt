@@ -1,0 +1,6 @@
+C:\Users\zeant\Desktop\Work-2\ProjetoReceitas\Projeto.API\obj\Debug\net6.0\Projeto.API.csproj.AssemblyReference.cache
+C:\Users\zeant\Desktop\Work-2\ProjetoReceitas\Projeto.API\obj\Debug\net6.0\Projeto.API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zeant\Desktop\Work-2\ProjetoReceitas\Projeto.API\obj\Debug\net6.0\Projeto.API.AssemblyInfoInputs.cache
+C:\Users\zeant\Desktop\Work-2\ProjetoReceitas\Projeto.API\obj\Debug\net6.0\Projeto.API.AssemblyInfo.cs
+C:\Users\zeant\Desktop\Work-2\ProjetoReceitas\Projeto.API\obj\Debug\net6.0\Projeto.API.csproj.CoreCompileInputs.cache
+C:\Users\zeant\Desktop\Work-2\ProjetoReceitas\Projeto.API\obj\Debug\net6.0\Projeto.API.MvcApplicationPartsAssemblyInfo.cache
